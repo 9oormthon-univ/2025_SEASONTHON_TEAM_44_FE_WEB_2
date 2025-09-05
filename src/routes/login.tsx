@@ -26,7 +26,7 @@ const LoginPage = () => {
         단골을 만드는 가장 따뜻한 방법
       </h2>
       <Space className="h-[15px]" />
-      <LogoText />
+      <LogoText className="text-[#FF645B]" />
       <Space className="h-[120px]" />
       <div className="relative flex w-full justify-center items-center">
         <img
