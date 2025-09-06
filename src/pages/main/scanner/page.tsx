@@ -93,7 +93,6 @@ export default function ScannerPage() {
         muted
         autoPlay
       />
-
       <div className="absolute inset-0 flex items-center justify-center">
         <img
           src="/images/main/scanner.png"
