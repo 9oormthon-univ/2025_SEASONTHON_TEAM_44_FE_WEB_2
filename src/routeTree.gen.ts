@@ -10,16 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedUserRouteRouteImport } from './routes/_authenticated/user/route'
 import { Route as AuthenticatedMainRouteRouteImport } from './routes/_authenticated/main/route'
 import { Route as AuthenticatedLocationRouteRouteImport } from './routes/_authenticated/location/route'
+import { Route as AuthenticatedMainIndexRouteImport } from './routes/_authenticated/main/index'
+import { Route as AuthenticatedMainStoreIdRouteImport } from './routes/_authenticated/main/$storeId'
 import { Route as AuthenticatedUserCouponRouteRouteImport } from './routes/_authenticated/user/coupon/route'
-import { Route as AuthenticatedMainStoreIdRouteRouteImport } from './routes/_authenticated/main/$storeId/route'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -27,33 +34,43 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedUserRouteRoute = AuthenticatedUserRouteRouteImport.update({
-  id: '/_authenticated/user',
+  id: '/user',
   path: '/user',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedMainRouteRoute = AuthenticatedMainRouteRouteImport.update({
-  id: '/_authenticated/main',
+  id: '/main',
   path: '/main',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedLocationRouteRoute =
   AuthenticatedLocationRouteRouteImport.update({
-    id: '/_authenticated/location',
+    id: '/location',
     path: '/location',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMainIndexRoute = AuthenticatedMainIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedMainRouteRoute,
+} as any)
+const AuthenticatedMainStoreIdRoute =
+  AuthenticatedMainStoreIdRouteImport.update({
+    id: '/$storeId',
+    path: '/$storeId',
+    getParentRoute: () => AuthenticatedMainRouteRoute,
   } as any)
 const AuthenticatedUserCouponRouteRoute =
   AuthenticatedUserCouponRouteRouteImport.update({
     id: '/coupon',
     path: '/coupon',
     getParentRoute: () => AuthenticatedUserRouteRoute,
-  } as any)
-const AuthenticatedMainStoreIdRouteRoute =
-  AuthenticatedMainStoreIdRouteRouteImport.update({
-    id: '/$storeId',
-    path: '/$storeId',
-    getParentRoute: () => AuthenticatedMainRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -62,27 +79,33 @@ export interface FileRoutesByFullPath {
   '/location': typeof AuthenticatedLocationRouteRoute
   '/main': typeof AuthenticatedMainRouteRouteWithChildren
   '/user': typeof AuthenticatedUserRouteRouteWithChildren
-  '/main/$storeId': typeof AuthenticatedMainStoreIdRouteRoute
+  '/home': typeof AuthenticatedHomeRoute
   '/user/coupon': typeof AuthenticatedUserCouponRouteRoute
+  '/main/$storeId': typeof AuthenticatedMainStoreIdRoute
+  '/main/': typeof AuthenticatedMainIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/location': typeof AuthenticatedLocationRouteRoute
-  '/main': typeof AuthenticatedMainRouteRouteWithChildren
   '/user': typeof AuthenticatedUserRouteRouteWithChildren
-  '/main/$storeId': typeof AuthenticatedMainStoreIdRouteRoute
+  '/home': typeof AuthenticatedHomeRoute
   '/user/coupon': typeof AuthenticatedUserCouponRouteRoute
+  '/main/$storeId': typeof AuthenticatedMainStoreIdRoute
+  '/main': typeof AuthenticatedMainIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/location': typeof AuthenticatedLocationRouteRoute
   '/_authenticated/main': typeof AuthenticatedMainRouteRouteWithChildren
   '/_authenticated/user': typeof AuthenticatedUserRouteRouteWithChildren
-  '/_authenticated/main/$storeId': typeof AuthenticatedMainStoreIdRouteRoute
+  '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/user/coupon': typeof AuthenticatedUserCouponRouteRoute
+  '/_authenticated/main/$storeId': typeof AuthenticatedMainStoreIdRoute
+  '/_authenticated/main/': typeof AuthenticatedMainIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -92,34 +115,38 @@ export interface FileRouteTypes {
     | '/location'
     | '/main'
     | '/user'
-    | '/main/$storeId'
+    | '/home'
     | '/user/coupon'
+    | '/main/$storeId'
+    | '/main/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/location'
-    | '/main'
     | '/user'
-    | '/main/$storeId'
+    | '/home'
     | '/user/coupon'
+    | '/main/$storeId'
+    | '/main'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/login'
     | '/_authenticated/location'
     | '/_authenticated/main'
     | '/_authenticated/user'
-    | '/_authenticated/main/$storeId'
+    | '/_authenticated/home'
     | '/_authenticated/user/coupon'
+    | '/_authenticated/main/$storeId'
+    | '/_authenticated/main/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
-  AuthenticatedLocationRouteRoute: typeof AuthenticatedLocationRouteRoute
-  AuthenticatedMainRouteRoute: typeof AuthenticatedMainRouteRouteWithChildren
-  AuthenticatedUserRouteRoute: typeof AuthenticatedUserRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -131,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -138,26 +172,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/user': {
       id: '/_authenticated/user'
       path: '/user'
       fullPath: '/user'
       preLoaderRoute: typeof AuthenticatedUserRouteRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/main': {
       id: '/_authenticated/main'
       path: '/main'
       fullPath: '/main'
       preLoaderRoute: typeof AuthenticatedMainRouteRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/location': {
       id: '/_authenticated/location'
       path: '/location'
       fullPath: '/location'
       preLoaderRoute: typeof AuthenticatedLocationRouteRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/main/': {
+      id: '/_authenticated/main/'
+      path: '/'
+      fullPath: '/main/'
+      preLoaderRoute: typeof AuthenticatedMainIndexRouteImport
+      parentRoute: typeof AuthenticatedMainRouteRoute
+    }
+    '/_authenticated/main/$storeId': {
+      id: '/_authenticated/main/$storeId'
+      path: '/$storeId'
+      fullPath: '/main/$storeId'
+      preLoaderRoute: typeof AuthenticatedMainStoreIdRouteImport
+      parentRoute: typeof AuthenticatedMainRouteRoute
     }
     '/_authenticated/user/coupon': {
       id: '/_authenticated/user/coupon'
@@ -166,23 +221,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserCouponRouteRouteImport
       parentRoute: typeof AuthenticatedUserRouteRoute
     }
-    '/_authenticated/main/$storeId': {
-      id: '/_authenticated/main/$storeId'
-      path: '/$storeId'
-      fullPath: '/main/$storeId'
-      preLoaderRoute: typeof AuthenticatedMainStoreIdRouteRouteImport
-      parentRoute: typeof AuthenticatedMainRouteRoute
-    }
   }
 }
 
 interface AuthenticatedMainRouteRouteChildren {
-  AuthenticatedMainStoreIdRouteRoute: typeof AuthenticatedMainStoreIdRouteRoute
+  AuthenticatedMainStoreIdRoute: typeof AuthenticatedMainStoreIdRoute
+  AuthenticatedMainIndexRoute: typeof AuthenticatedMainIndexRoute
 }
 
 const AuthenticatedMainRouteRouteChildren: AuthenticatedMainRouteRouteChildren =
   {
-    AuthenticatedMainStoreIdRouteRoute: AuthenticatedMainStoreIdRouteRoute,
+    AuthenticatedMainStoreIdRoute: AuthenticatedMainStoreIdRoute,
+    AuthenticatedMainIndexRoute: AuthenticatedMainIndexRoute,
   }
 
 const AuthenticatedMainRouteRouteWithChildren =
@@ -204,12 +254,28 @@ const AuthenticatedUserRouteRouteWithChildren =
     AuthenticatedUserRouteRouteChildren,
   )
 
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  LoginRoute: LoginRoute,
+interface AuthenticatedRouteChildren {
+  AuthenticatedLocationRouteRoute: typeof AuthenticatedLocationRouteRoute
+  AuthenticatedMainRouteRoute: typeof AuthenticatedMainRouteRouteWithChildren
+  AuthenticatedUserRouteRoute: typeof AuthenticatedUserRouteRouteWithChildren
+  AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedLocationRouteRoute: AuthenticatedLocationRouteRoute,
   AuthenticatedMainRouteRoute: AuthenticatedMainRouteRouteWithChildren,
   AuthenticatedUserRouteRoute: AuthenticatedUserRouteRouteWithChildren,
+  AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

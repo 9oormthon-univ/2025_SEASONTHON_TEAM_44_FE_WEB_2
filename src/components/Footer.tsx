@@ -8,12 +8,12 @@ export default function Footer() {
   const navigate = useNavigate();
   const currentPath = location.pathname;
 
-  const isHomeActive = currentPath.includes('/main');
+  const isHomeActive = currentPath.includes('/home');
   const isUserActive = currentPath.includes('/user');
 
   const handleHomeClick = () => {
     navigate({
-      to: '/main',
+      to: '/home',
       replace: true,
       search: { search: '', filter: 'NEWEST_REGISTER' },
     });

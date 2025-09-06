@@ -1,3 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
+
 export interface PostCardProps {
   id: number;
   imageUrl: string;
@@ -13,9 +15,24 @@ export default function PostCard({
   date,
   visitCount,
   isNotice,
+  id,
 }: PostCardProps) {
+  const navigate = useNavigate();
+  const handleCardClick = () => {
+    try {
+      navigate({
+        to: '/main/$storeId',
+        params: { storeId: id.toString() },
+      });
+    } catch (error) {
+      console.error('Navigation error:', error);
+    }
+  };
   return (
-    <div className="w-full border-2 border-gray-50 rounded-[12px] relative overflow-hidden">
+    <div
+      className="w-full border-2 cursor-pointer border-gray-50 rounded-[12px] relative overflow-hidden"
+      onClick={handleCardClick}
+    >
       <div className="w-full h-[110px] relative">
         <img
           src={imageUrl}
@@ -32,8 +49,8 @@ export default function PostCard({
       </div>
       {isNotice && (
         <div className="absolute rounded-[12px] bg-primary-700 text-white top-[15px] text-body3 p-[10px] justify-items-center flex right-[15px]">
-          새로운 공지
-        </div>
+          새로운공지
+        </div> 
       )}
     </div>
   );
