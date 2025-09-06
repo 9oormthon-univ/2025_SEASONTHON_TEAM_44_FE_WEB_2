@@ -1,14 +1,10 @@
-import Button from '@/components/Button';
-import Footer from '@/components/Footer';
-import Space from '@/components/Space';
-import Pop from '@/components/svg/Pop';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import Button from "@/components/Button";
+import Footer from "@/components/Footer";
+import Space from "@/components/Space";
+import Pop from "@/components/svg/Pop";
+import { useNavigate } from "react-router-dom";
 
-export const Route = createFileRoute('/_authenticated/user')({
-  component: () => <UserPage />,
-});
-
-function UserPage() {
+export function UserPage() {
   const navigate = useNavigate();
   return (
     <div className="w-full min-h-screen bg-gray-30">
@@ -56,9 +52,7 @@ function UserPage() {
         <Space className="h-[10px]" />
         <div
           onClick={() => {
-            navigate({
-              to: '/user/coupon',
-            });
+            navigate("/user/coupon");
           }}
           className="bg-white p-5 rounded-xl flex items-center justify-between"
         >

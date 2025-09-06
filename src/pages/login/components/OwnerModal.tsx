@@ -1,8 +1,8 @@
-import Button from '@/components/Button';
-import Space from '@/components/Space';
-import X from '@/components/svg/X';
-import Toast from '@/components/Toast';
-import { useModal } from '@/hooks/useModal';
+import Button from "@/components/Button";
+import Space from "@/components/Space";
+import X from "@/components/svg/X";
+import Toast from "@/components/Toast";
+import { useModal } from "@/hooks/useModal";
 
 interface OwnerModalProps {
   isOpen: boolean;
@@ -39,11 +39,11 @@ export function OwnerModal({ isOpen, onClose }: OwnerModalProps) {
                 onClick={async () => {
                   try {
                     await navigator.clipboard.writeText(
-                      'http://localhost:5173/owner',
+                      "http://localhost:5173/owner"
                     );
                     openModal(({ onClose }) => <Toast onClose={onClose} />);
                   } catch (error) {
-                    console.error('복사 실패:', error);
+                    console.error("복사 실패:", error);
                   }
                 }}
               >

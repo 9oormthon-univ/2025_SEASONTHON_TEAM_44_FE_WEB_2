@@ -1,14 +1,10 @@
-import Button from '@/components/Button';
-import Space from '@/components/Space';
-import Pop from '@/components/svg/Pop';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import Button from "@/components/Button";
+import Space from "@/components/Space";
+import Pop from "@/components/svg/Pop";
+import { useNavigate, useParams } from "react-router-dom";
 
-export const Route = createFileRoute('/_authenticated/main/$storeId')({
-  component: StorePage,
-});
-
-function StorePage() {
-  const { storeId } = Route.useParams();
+export function StorePage() {
+  const { storeId } = useParams();
   const navigate = useNavigate();
   console.log(storeId);
 
@@ -17,7 +13,7 @@ function StorePage() {
   const progressPercentage = (currentVisits / totalVisits) * 100;
 
   const handleBackClick = () => {
-    navigate({ to: '/home' });
+    navigate("/main");
   };
   return (
     <div className="w-full h-screen px-5 flex flex-col items-center= justify-start bg-gray-30">

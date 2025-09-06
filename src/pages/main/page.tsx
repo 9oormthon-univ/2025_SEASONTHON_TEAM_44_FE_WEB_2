@@ -1,22 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router';
-import MainHeader from '@/routes/_authenticated/main/-components/MainHeader';
-import FilterModal from '@/routes/_authenticated/main/-components/FilterModal';
-import PostCard, {
-  type PostCardProps,
-} from '@/routes/_authenticated/main/-components/PostCard';
-import ArrowDropdown from '@/components/svg/ArrowDropdown';
-import {
-  FILTER_OPTIONS,
-  FILTER_LABELS,
-} from '@/routes/_authenticated/main/const';
-import { useState } from 'react';
-import Footer from '@/components/Footer';
+import ArrowDropdown from "@/components/svg/ArrowDropdown";
+import { FILTER_OPTIONS, FILTER_LABELS } from "@/pages/main/const";
+import { useState } from "react";
+import Footer from "@/components/Footer";
+import type { PostCardProps } from "@/pages/main/components/PostCard";
+import MainHeader from "@/pages/main/components/MainHeader";
+import PostCard from "@/pages/main/components/PostCard";
+import FilterModal from "@/pages/main/components/FilterModal";
 
-export const Route = createFileRoute('/_authenticated/home')({
-  component: () => <MainPage />,
-});
-
-const MainPage = () => {
+export const MainPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<
     keyof typeof FILTER_OPTIONS
@@ -26,7 +17,7 @@ const MainPage = () => {
     id: i + 1,
     imageUrl: `https://picsum.photos/400/300?random=${i + 1}`,
     title: `단골가게 ${i + 1}`,
-    date: '2024-01-15',
+    date: "2024-01-15",
     visitCount: Math.floor(Math.random() * 10) + 1,
     isNotice: Math.random() > 0.8,
   }));
@@ -50,7 +41,7 @@ const MainPage = () => {
         <div className="w-full flex flex-row justify-between">
           <div className="w-full flex flex-row gap-[5px] items-center">
             <h2 className="text-sub1 text-black">나의 단골가게</h2>
-            <p className="text-sub1 text-primary-500">{'(6)'}</p>
+            <p className="text-sub1 text-primary-500">{"(6)"}</p>
           </div>
           <div className="relative">
             <div
@@ -59,7 +50,7 @@ const MainPage = () => {
             >
               <ArrowDropdown
                 className={`size-[24px] transition-transform duration-300 ${
-                  isFilterOpen ? 'rotate-180' : ''
+                  isFilterOpen ? "rotate-180" : ""
                 }`}
               />
               <p className="text-body1 text-gray-600 whitespace-nowrap">

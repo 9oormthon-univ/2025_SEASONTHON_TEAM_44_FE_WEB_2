@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate } from "react-router-dom";
 
 export interface PostCardProps {
   id: number;
@@ -20,12 +20,9 @@ export default function PostCard({
   const navigate = useNavigate();
   const handleCardClick = () => {
     try {
-      navigate({
-        to: '/main/$storeId',
-        params: { storeId: id.toString() },
-      });
+      navigate(`/main/${id}`);
     } catch (error) {
-      console.error('Navigation error:', error);
+      console.error("Navigation error:", error);
     }
   };
   return (
@@ -50,7 +47,7 @@ export default function PostCard({
       {isNotice && (
         <div className="absolute rounded-[12px] bg-primary-700 text-white top-[15px] text-body3 p-[10px] justify-items-center flex right-[15px]">
           새로운공지
-        </div> 
+        </div>
       )}
     </div>
   );

@@ -1,15 +1,10 @@
-import Button from '@/components/Button';
-import Space from '@/components/Space';
-import LogoText from '@/components/svg/LogoText';
-import { useModal } from '@/hooks/useModal';
-import { createFileRoute } from '@tanstack/react-router';
-import { OwnerModal } from '@/routes/-components/OwnerModal';
+import Button from "@/components/Button";
+import Space from "@/components/Space";
+import LogoText from "@/components/svg/LogoText";
+import { useModal } from "@/hooks/useModal";
+import { OwnerModal } from "@/pages/login/components/OwnerModal";
 
-export const Route = createFileRoute('/login')({
-  component: () => <LoginPage />,
-});
-
-const LoginPage = () => {
+export const LoginPage = () => {
   const { openModal } = useModal();
 
   const handleOwnerLogin = () => {
@@ -58,3 +53,5 @@ const LoginPage = () => {
     </main>
   );
 };
+
+export default LoginPage;

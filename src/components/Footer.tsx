@@ -1,26 +1,22 @@
-import { useLocation, useNavigate } from '@tanstack/react-router';
-import Home from './svg/Home';
-import User from './svg/User';
-import QR from './svg/QR';
+import { useLocation, useNavigate } from "react-router-dom";
+import Home from "./svg/Home";
+import User from "./svg/User";
+import QR from "./svg/QR";
 
 export default function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
 
-  const isHomeActive = currentPath.includes('/home');
-  const isUserActive = currentPath.includes('/user');
+  const isHomeActive = currentPath.includes("/main");
+  const isUserActive = currentPath.includes("/user");
 
   const handleHomeClick = () => {
-    navigate({
-      to: '/home',
-      replace: true,
-      search: { search: '', filter: 'NEWEST_REGISTER' },
-    });
+    navigate("/main", { replace: true });
   };
 
   const handleUserClick = () => {
-    navigate({ to: '/user', replace: true });
+    navigate("/user", { replace: true });
   };
 
   return (
@@ -31,12 +27,12 @@ export default function Footer() {
       >
         <Home
           className={`size-[30px] ${
-            isHomeActive ? 'text-gray-800' : 'text-gray-200'
+            isHomeActive ? "text-gray-800" : "text-gray-200"
           }`}
         />
         <p
           className={`text-body4 ${
-            isHomeActive ? 'text-gray-800' : 'text-gray-200'
+            isHomeActive ? "text-gray-800" : "text-gray-200"
           }`}
         >
           홈
@@ -54,12 +50,12 @@ export default function Footer() {
       >
         <User
           className={`size-[30px] ${
-            isUserActive ? 'text-gray-800' : 'text-gray-200'
+            isUserActive ? "text-gray-800" : "text-gray-200"
           }`}
         />
         <p
           className={`text-body4 ${
-            isUserActive ? 'text-gray-800' : 'text-gray-200'
+            isUserActive ? "text-gray-800" : "text-gray-200"
           }`}
         >
           마이온

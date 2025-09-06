@@ -1,12 +1,7 @@
-import Button from '@/components/Button';
-import Space from '@/components/Space';
-import { createFileRoute } from '@tanstack/react-router';
+import Button from "@/components/Button";
+import Space from "@/components/Space";
 
-export const Route = createFileRoute('/_authenticated/location')({
-  component: () => <LocationPage />,
-});
-
-const LocationPage = () => {
+export const LocationPage = () => {
   return (
     <main className="w-full h-screen flex flex-col items-center justify-end">
       <h1 className="text-h3 text-black text-center">
