@@ -1,7 +1,7 @@
-import type { GetRecentStore } from "@/schema/api/regular";
+import type { GetStampMypageResponseSchema } from "@/schema/api/stamp";
 
 interface StoreCardProps {
-  store: GetRecentStore;
+  store: GetStampMypageResponseSchema["response"]["recentStores"][0];
 }
 
 export default function StoreCard({ store }: StoreCardProps) {

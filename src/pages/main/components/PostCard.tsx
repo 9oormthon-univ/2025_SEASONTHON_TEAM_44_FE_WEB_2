@@ -1,8 +1,8 @@
-import type { GetRegularMainStore } from "@/schema/api/regular";
+import type { GetStampMainResponseSchema } from "@/schema/api/stamp";
 import { useNavigate } from "react-router-dom";
 
 interface PostCardProps {
-  post: GetRegularMainStore;
+  post: GetStampMainResponseSchema["response"]["storeList"][0];
 }
 
 export default function PostCard({ post }: PostCardProps) {

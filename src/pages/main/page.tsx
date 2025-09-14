@@ -7,15 +7,20 @@ import MainHeader from "@/pages/main/components/MainHeader";
 import PostCard from "@/pages/main/components/PostCard";
 import FilterModal from "@/pages/main/components/FilterModal";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getRegularMainOptions } from "@/query/options/regular";
 import { cn } from "@/utils/cn";
+import { SortOption } from "@/schema/api/stamp";
+import { getStampMainOptions } from "@/query/options/stamp";
+
+const FILTER_TO_SORT_MAP: Record<string, SortOption> = {
+  [FILTER_OPTIONS.STAMP_SOON]: SortOption.STAMP,
+  [FILTER_OPTIONS.RECENT_VISIT]: SortOption.LAST_VISIT,
+  [FILTER_OPTIONS.NEWEST_REGISTER]: SortOption.NEWEST,
+  [FILTER_OPTIONS.OLDEST_REGISTER]: SortOption.OLDEST,
+};
 
 export const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-  const { data: mainData } = useSuspenseQuery(getRegularMainOptions());
-  const allPosts = mainData.response.storeList;
 
   const selectedFilter =
     (searchParams.get(
@@ -24,27 +29,12 @@ export const MainPage = () => {
     FILTER_OPTIONS.NEWEST_REGISTER;
 
   const searchQuery = searchParams.get("search") || "";
+  const sortOption = FILTER_TO_SORT_MAP[selectedFilter] || SortOption.NEWEST;
 
-  const filteredPosts = allPosts.filter((post) =>
-    post.storeName.toLowerCase().includes(searchQuery.toLowerCase())
+  const { data: mainData } = useSuspenseQuery(
+    getStampMainOptions(searchQuery || undefined, sortOption)
   );
-
-  const posts = [...filteredPosts].sort((a, b) => {
-    switch (selectedFilter) {
-      case "stamp_soon":
-        return a.availableStamp - b.availableStamp;
-      case "recent_visit":
-        return (
-          new Date(b.lastVisit).getTime() - new Date(a.lastVisit).getTime()
-        );
-      case "newest_register":
-        return b.storeId - a.storeId;
-      case "oldest_register":
-        return a.storeId - b.storeId;
-      default:
-        return 0;
-    }
-  });
+  const posts = mainData.response.storeList;
 
   const handleSelectFilter = (filter: keyof typeof FILTER_OPTIONS) => {
     setSearchParams({ filter });

@@ -1,10 +1,12 @@
 import { useModal } from "@/hooks/useModal";
 import { CouponModal } from "@/pages/user/coupon/components/CouponModal";
-import type { CouponType } from "@/schema/api/regular";
+import type { GetStampCouponsResponseSchema } from "@/schema/api/stamp";
 import { cn } from "@/utils/cn";
 
+type CouponData = GetStampCouponsResponseSchema["response"][0];
+
 interface CouponCardProps {
-  coupon: CouponType;
+  coupon: CouponData;
   isCoupon: boolean;
 }
 

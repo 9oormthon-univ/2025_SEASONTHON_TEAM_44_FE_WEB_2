@@ -1,4 +1,4 @@
-import { postRegularCouponStampId } from "@/api/authenticated/regular";
+import { postStampCouponUse } from "@/api/authenticated/stamp";
 import Button from "@/components/Button";
 import X from "@/components/svg/X";
 import { useModal } from "@/hooks/useModal";
@@ -21,7 +21,7 @@ export function CouponModal({
   const { openModal } = useModal();
   const queryClient = useQueryClient();
   const { mutate: postCouponUse } = useMutation({
-    mutationFn: () => postRegularCouponStampId(stampId),
+    mutationFn: () => postStampCouponUse(stampId),
     onSuccess: () => {
       openModal(({ isOpen, onClose }) => (
         <CouponUsedModal isOpen={isOpen} onClose={onClose} />

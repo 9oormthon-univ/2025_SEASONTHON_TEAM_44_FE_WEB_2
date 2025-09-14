@@ -3,18 +3,18 @@ import Footer from "@/components/Footer";
 import Space from "@/components/Space";
 import Pop from "@/components/svg/Pop";
 import StoreCard from "@/pages/user/components/StoreCard";
-import { getRegularMypageOptions } from "@/query/options/regular";
+import { getStampMypageOptions } from "@/query/options/stamp";
 import { getUserMeSimpleOptions } from "@/query/options/user";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { deleteUserMe } from "@/api/authenticated/user";
+import { deleteUsersMe } from "@/api/authenticated/user";
 
 export function UserPage() {
   const navigate = useNavigate();
-  const { data: mypageData } = useSuspenseQuery(getRegularMypageOptions());
+  const { data: mypageData } = useSuspenseQuery(getStampMypageOptions());
   const { data: userData } = useSuspenseQuery(getUserMeSimpleOptions());
   const { mutate: deleteUser } = useMutation({
-    mutationFn: () => deleteUserMe(),
+    mutationFn: () => deleteUsersMe(),
     onSuccess: () => {
       localStorage.clear();
       navigate("/login");

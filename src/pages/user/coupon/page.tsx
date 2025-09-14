@@ -2,16 +2,26 @@ import Space from "@/components/Space";
 import Pop from "@/components/svg/Pop";
 import Tab from "@/components/Tab";
 import CouponCard from "@/pages/user/coupon/components/CouponCard";
-import { getRegularCouponOptions } from "@/query/options/regular";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useSearchParams, Link } from "react-router-dom";
 import { cn } from "../../../utils/cn";
+import { getStampCouponsOptions } from "@/query/options/stamp";
+import { CouponType } from "@/schema/api/stamp";
+
+const TAB_TO_COUPON_TYPE_MAP: Record<string, CouponType> = {
+  "my-coupon": CouponType.OWNED,
+  "schedule-coupon": CouponType.SCHEDULED,
+};
 
 export function CouponPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: coupons } = useSuspenseQuery(getRegularCouponOptions());
   const tab =
     (searchParams.get("tab") as "my-coupon" | "schedule-coupon") || "my-coupon";
+
+  const couponType = TAB_TO_COUPON_TYPE_MAP[tab];
+  const { data: coupons } = useSuspenseQuery(
+    getStampCouponsOptions(couponType)
+  );
 
   const handleTabClick = (tab: "my-coupon" | "schedule-coupon") => {
     setSearchParams({ tab });

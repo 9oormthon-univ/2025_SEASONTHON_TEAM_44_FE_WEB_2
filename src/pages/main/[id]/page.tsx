@@ -1,17 +1,12 @@
-import {
-  postRegularNotiRead,
-  postRegularStoreId,
-  postRegularStoreStamp,
-} from "@/api/authenticated/regular";
+import { postNotiRead } from "@/api/authenticated/noti";
+import { postStoreRegister, postStoreVisit } from "@/api/authenticated/store";
 import Button from "@/components/Button";
 import Space from "@/components/Space";
 import Pop from "@/components/svg/Pop";
 import Toast from "@/components/Toast";
 import { useModal } from "@/hooks/useModal";
-import {
-  getRegularStoreIdDetailOptions,
-  getRegularStoreIdOptions,
-} from "@/query/options/regular";
+import { getStampStoreDetailOptions } from "@/query/options/stamp";
+import { getStoreRegularOptions } from "@/query/options/store";
 import {
   useMutation,
   useQueryClient,
@@ -28,13 +23,13 @@ export function StorePage() {
   const id = Number(storeId);
   const location = useLocation();
 
-  const { data: isStore } = useSuspenseQuery(getRegularStoreIdOptions(id));
-  const { data } = useSuspenseQuery(getRegularStoreIdDetailOptions(id));
+  const { data: isStore } = useSuspenseQuery(getStoreRegularOptions(id));
+  const { data } = useSuspenseQuery(getStampStoreDetailOptions(id));
 
   const storeDetail = data.response;
 
   const { mutate: postDasion } = useMutation({
-    mutationFn: () => postRegularStoreId(id),
+    mutationFn: () => postStoreRegister(id),
     onSuccess: () => {
       openModal(({ onClose }) => (
         <Toast label="단골 등록 성공" onClose={onClose} />
@@ -42,7 +37,7 @@ export function StorePage() {
     },
   });
   const { mutate: postStamp } = useMutation({
-    mutationFn: () => postRegularStoreStamp(id),
+    mutationFn: () => postStoreVisit(id),
     onSuccess: () => {
       openModal(({ onClose }) => (
         <Toast label="스탬프 적립 완료" onClose={onClose} />
@@ -52,8 +47,8 @@ export function StorePage() {
       });
     },
   });
-  const { mutate: postNotiRead } = useMutation({
-    mutationFn: (notiId: number) => postRegularNotiRead(notiId),
+  const { mutate: notiRead } = useMutation({
+    mutationFn: (notiId: number) => postNotiRead(notiId),
     onSuccess: () => {
       openModal(({ onClose }) => (
         <Toast label="공지 읽음 처리 완료" onClose={onClose} />
@@ -139,7 +134,7 @@ export function StorePage() {
               </p>
               <Button
                 className="w-full text-body3 text-white py-[13.5px] bg-gray-800 rounded-[12px]"
-                onClick={() => postNotiRead(storeDetail.latestNoti!.id)}
+                onClick={() => notiRead(storeDetail.latestNoti!.id)}
               >
                 확인했어요
               </Button>
