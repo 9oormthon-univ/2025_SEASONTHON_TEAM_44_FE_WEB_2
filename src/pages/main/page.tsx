@@ -1,15 +1,15 @@
-import ArrowDropdown from "@/components/svg/ArrowDropdown";
-import { FILTER_OPTIONS, FILTER_LABELS } from "@/pages/main/const";
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import Footer from "@/components/Footer";
-import MainHeader from "@/pages/main/components/MainHeader";
-import PostCard from "@/pages/main/components/PostCard";
-import FilterModal from "@/pages/main/components/FilterModal";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { cn } from "@/utils/cn";
-import { SortOption } from "@/schema/api/stamp";
-import { getStampMainOptions } from "@/query/options/stamp";
+import ArrowDropdown from '@/components/svg/ArrowDropdown';
+import { FILTER_OPTIONS, FILTER_LABELS } from '@/pages/main/const';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import Footer from '@/components/Footer';
+import MainHeader from '@/pages/main/components/MainHeader';
+import PostCard from '@/pages/main/components/PostCard';
+import FilterModal from '@/pages/main/components/FilterModal';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { cn } from '@/utils/cn';
+import { SortOption } from '@/schema/api/stamp';
+import { getStampMainOptions } from '@/query/options/stamp';
 
 const FILTER_TO_SORT_MAP: Record<string, SortOption> = {
   [FILTER_OPTIONS.STAMP_SOON]: SortOption.STAMP,
@@ -24,15 +24,15 @@ export const MainPage = () => {
 
   const selectedFilter =
     (searchParams.get(
-      "filter"
+      'filter',
     ) as (typeof FILTER_OPTIONS)[keyof typeof FILTER_OPTIONS]) ||
     FILTER_OPTIONS.NEWEST_REGISTER;
 
-  const searchQuery = searchParams.get("search") || "";
+  const searchQuery = searchParams.get('search') || '';
   const sortOption = FILTER_TO_SORT_MAP[selectedFilter] || SortOption.NEWEST;
 
   const { data: mainData } = useSuspenseQuery(
-    getStampMainOptions(searchQuery || undefined, sortOption)
+    getStampMainOptions(searchQuery || undefined, sortOption),
   );
   const posts = mainData.response.storeList;
 
@@ -60,7 +60,7 @@ export const MainPage = () => {
             >
               <ArrowDropdown
                 className={`size-[24px] transition-transform duration-300 ${
-                  isFilterOpen ? "rotate-180" : ""
+                  isFilterOpen ? 'rotate-180' : ''
                 }`}
               />
               <p className="text-body1 text-gray-600 whitespace-nowrap">
@@ -77,8 +77,8 @@ export const MainPage = () => {
         </div>
         <div
           className={cn(
-            "w-full flex flex-col gap-[10px] mt-[5px]",
-            posts.length === 0 && "h-[500px] flex items-center justify-center"
+            'w-full flex flex-col gap-[10px] mt-[5px]',
+            posts.length === 0 && 'h-[500px] flex items-center justify-center',
           )}
         >
           {posts.length === 0 ? (
@@ -86,10 +86,13 @@ export const MainPage = () => {
               동네 가게를 방문하세요
             </p>
           ) : (
-            posts.map((post) => <PostCard key={post.storeId} post={post} />)
+            posts.map((post, index) => (
+              <PostCard key={`${post.storeId}-${index}`} post={post} />
+            ))
           )}
         </div>
       </main>
+      <div className="h-[120px]" />
       <Footer />
     </div>
   );

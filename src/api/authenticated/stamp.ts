@@ -1,4 +1,4 @@
-import { authenticatedApi } from "./instance";
+import { authenticatedApi } from './instance';
 import {
   getStampMainResponseSchema,
   getStampStoreDetailResponseSchema,
@@ -12,10 +12,10 @@ import {
   type GetStampMypageResponseSchema,
   SortOption,
   CouponType,
-} from "@/schema/api/stamp";
+} from '@/schema/api/stamp';
 
 export const getStampStoreDetail = async (
-  storeId: number
+  storeId: number,
 ): Promise<GetStampStoreDetailResponseSchema> => {
   const response = await authenticatedApi
     .get(`stamps/me/stores/${storeId}`)
@@ -25,11 +25,11 @@ export const getStampStoreDetail = async (
 
 export const getStampMain = async (
   keyword?: string,
-  sort: SortOption = SortOption.NEWEST
+  sort: SortOption = SortOption.NEWEST,
 ): Promise<GetStampMainResponseSchema> => {
   const searchParams = new URLSearchParams();
-  if (keyword) searchParams.append("keyword", keyword);
-  searchParams.append("sort", sort);
+  if (keyword) searchParams.append('keyword', keyword);
+  searchParams.append('sort', sort);
 
   const response = await authenticatedApi
     .get(`stamps/me/main?${searchParams.toString()}`)
@@ -37,10 +37,10 @@ export const getStampMain = async (
   return getStampMainResponseSchema.parse(response);
 };
 export const getStampCoupons = async (
-  type: CouponType = CouponType.OWNED
+  type: CouponType = CouponType.OWNED,
 ): Promise<GetStampCouponsResponseSchema> => {
   const searchParams = new URLSearchParams();
-  searchParams.append("type", type);
+  searchParams.append('type', type);
 
   const response = await authenticatedApi
     .get(`stamps/coupons?${searchParams.toString()}`)
@@ -49,7 +49,7 @@ export const getStampCoupons = async (
 };
 
 export const postStampCouponUse = async (
-  stampId: number
+  stampId: number,
 ): Promise<PostStampCouponUseResponseSchema> => {
   const response = await authenticatedApi
     .post(`stamps/${stampId}/coupon`)
@@ -59,6 +59,6 @@ export const postStampCouponUse = async (
 
 export const getStampMypage =
   async (): Promise<GetStampMypageResponseSchema> => {
-    const response = await authenticatedApi.get("stamps/me/summary").json();
+    const response = await authenticatedApi.get('stamps/me/summary').json();
     return getStampMypageResponseSchema.parse(response);
   };

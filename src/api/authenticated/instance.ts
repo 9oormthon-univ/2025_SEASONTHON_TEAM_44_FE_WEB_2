@@ -1,19 +1,19 @@
-import { api } from "@/api/instance";
-import { HTTPError } from "ky";
+import { api } from '@/api/instance';
+import { HTTPError } from 'ky';
 
 export const authenticatedApi = api.extend({
   retry: {
     limit: 0,
-    methods: ["get", "post", "put", "delete", "options", "trace"],
+    methods: ['get', 'post', 'put', 'delete', 'options', 'trace'],
     statusCodes: [],
     afterStatusCodes: [],
   },
   hooks: {
     beforeRequest: [
       (request) => {
-        const accessToken = localStorage.getItem("accessToken");
+        const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
-          request.headers.set("Authorization", `Bearer ${accessToken}`);
+          request.headers.set('Authorization', `Bearer ${accessToken}`);
         }
       },
     ],
@@ -21,10 +21,11 @@ export const authenticatedApi = api.extend({
       async ({ error }) => {
         if (error instanceof HTTPError) {
           const status = error.response.status;
-          if (status === 403) {
-            localStorage.removeItem("accessToken");
-            window.location.href = "/login";
-          }
+          console.log(status);
+          // if (status === 403) {
+          //   localStorage.removeItem('accessToken');
+          //   window.location.href = '/login';
+          // }
         }
       },
     ],
