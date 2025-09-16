@@ -80,9 +80,9 @@ export function StorePage() {
     if (isStore.response === false) {
       postDasion();
     } else {
-      // if (isFromScanner && isIdle) {
-      postStamp();
-      // }
+      if (isFromScanner && isIdle) {
+        postStamp();
+      }
     }
   }, [isStore, postDasion, isFromScanner, postStamp, isIdle]);
 
